@@ -472,6 +472,21 @@
     .hero-cta .btn{width:100%; justify-content:center; padding:12px 10px; font-size:12px;}
     .hero-cta .btn-primary{grid-column:1 / -1;}
   }
+
+  @media (max-width:560px){
+    .stats-grid{
+      display:flex; grid-template-columns:none;
+      overflow-x:auto; scroll-behavior:smooth;
+      scroll-snap-type:x mandatory;
+      scrollbar-width:none;
+    }
+    .stats-grid::-webkit-scrollbar{display:none;}
+    .stat{
+      flex:0 0 65vw; scroll-snap-align:start;
+      border-right:1px solid var(--line) !important;
+      border-bottom:none !important;
+    }
+  }
 </style>
 </head>
 <body>
