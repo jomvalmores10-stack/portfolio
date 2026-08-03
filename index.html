@@ -479,13 +479,13 @@
 
 <div class="intro-modal-backdrop" id="introModal">
   <div class="intro-modal">
-    <button class="intro-modal-close" onclick="closeIntroModal()" aria-label="Close video">?</button>
+    <button class="intro-modal-close" onclick="closeIntroModal()" aria-label="Close video">&times;</button>
     <div class="intro-head">
       <span class="label"><span class="rec"></span>intro.mp4 — a quick hello before the resume</span>
       <span class="runtime">Loom recording</span>
     </div>
     <div class="video-frame">
-      <iframe src="https://www.loom.com/embed/09c8ac52425d45888a21e318b6ecf877?hide_owner=true&hide_share=true&hide_title=true" allow="fullscreen" allowfullscreen title="Introduction video from Jomary Valmores"></iframe>
+      <iframe id="introFrame" data-src="https://www.loom.com/embed/09c8ac52425d45888a21e318b6ecf877?hide_owner=true&hide_share=true&hide_title=true" src="" allow="fullscreen" allowfullscreen title="Introduction video from Jomary Valmores"></iframe>
     </div>
     <div class="intro-caption">A short intro from me — who I am, how I work, and what I can build for you.</div>
   </div>
@@ -754,12 +754,16 @@
     powFileInput.value = '';
   });
   function openIntroModal(){
+    var iframe = document.getElementById('introFrame');
+    if(iframe && !iframe.src){ iframe.src = iframe.dataset.src; }
     document.getElementById('introModal').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
   function closeIntroModal(){
     document.getElementById('introModal').classList.remove('open');
     document.body.style.overflow = '';
+    var iframe = document.getElementById('introFrame');
+    if(iframe){ iframe.src = ''; }
   }
   document.getElementById('introModal').addEventListener('click', (e) => {
     if(e.target.id === 'introModal') closeIntroModal();
