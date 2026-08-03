@@ -504,6 +504,15 @@
     .stat .num{font-size:20px; white-space:nowrap; line-height:1.2;}
     .stat .lbl{font-size:11.5px; line-height:1.4; margin-top:4px;}
   }
+
+  @media (max-width:560px){
+    .tabbar-inner{
+      -webkit-mask-image:linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent);
+      mask-image:linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent);
+      cursor:grab;
+    }
+    .tabbar-inner:active{cursor:grabbing;}
+  }
 </style>
 </head>
 <body>
@@ -985,6 +994,50 @@
     track.addEventListener('touchmove', function(e){ move(e.touches[0].pageX); }, {passive:true});
     track.addEventListener('touchend', release);
     track.addEventListener('touchcancel', release);
+  })();
+
+  // Auto-scrolling tab bar with drag support (mobile)
+  (function(){
+    var tabTrack = document.querySelector('.tabbar-inner');
+    if(!tabTrack) return;
+    var isDown = false, startX, scrollStart, resumeTimeout;
+
+    function step(){
+      if(!isDown){
+        tabTrack.scrollLeft += 0.5;
+        if(tabTrack.scrollLeft >= tabTrack.scrollWidth - tabTrack.clientWidth){
+          tabTrack.scrollLeft = 0;
+        }
+      }
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+
+    function start(pageX){
+      isDown = true;
+      startX = pageX; scrollStart = tabTrack.scrollLeft;
+      clearTimeout(resumeTimeout);
+    }
+    function move(pageX){
+      if(!isDown) return;
+      tabTrack.scrollLeft = scrollStart - (pageX - startX);
+    }
+    function release(){
+      if(!isDown) return;
+      isDown = false;
+      resumeTimeout = setTimeout(function(){}, 300);
+    }
+
+    tabTrack.addEventListener('pointerdown', function(e){ start(e.pageX); });
+    tabTrack.addEventListener('pointermove', function(e){ move(e.pageX); });
+    tabTrack.addEventListener('pointerup', release);
+    tabTrack.addEventListener('pointercancel', release);
+    tabTrack.addEventListener('pointerleave', release);
+
+    tabTrack.addEventListener('touchstart', function(e){ start(e.touches[0].pageX); }, {passive:true});
+    tabTrack.addEventListener('touchmove', function(e){ move(e.touches[0].pageX); }, {passive:true});
+    tabTrack.addEventListener('touchend', release);
+    tabTrack.addEventListener('touchcancel', release);
   })();
 </script>
 
