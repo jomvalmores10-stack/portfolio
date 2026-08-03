@@ -478,31 +478,31 @@
       border-top:none; border-bottom:none;
       background:transparent;
       padding:20px 0;
-      overflow:hidden;
+      overflow-x:auto;
+      overflow-y:hidden;
+      scrollbar-width:none;
+      cursor:grab;
       -webkit-mask-image:linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
       mask-image:linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
     }
+    .stats::-webkit-scrollbar{display:none;}
+    .stats:active{cursor:grabbing;}
     .stats-grid{
       display:flex; grid-template-columns:none;
       width:max-content;
       gap:14px;
-      animation:stats-scroll 28s linear infinite;
       padding:0 20px;
     }
-    .stats:active .stats-grid{animation-play-state:paused;}
     .stat{
       flex:0 0 auto; width:150px;
       padding:18px 18px;
       background:var(--panel);
       border:1px solid var(--line) !important;
       border-radius:var(--radius);
+      user-select:none;
     }
     .stat .num{font-size:20px; white-space:nowrap; line-height:1.2;}
     .stat .lbl{font-size:11.5px; line-height:1.4; margin-top:4px;}
-  }
-  @keyframes stats-scroll{
-    0%{transform:translateX(0);}
-    100%{transform:translateX(-50%);}
   }
 </style>
 </head>
@@ -945,6 +945,41 @@
     const amount = card ? (card.offsetWidth + 18) : 300;
     grid.scrollBy({ left: dir * amount, behavior: 'smooth' });
   }
+
+  // Auto-scrolling stats strip with drag support (mobile)
+  (function(){
+    var track = document.querySelector('.stats');
+    if(!track) return;
+    var isDown = false, startX, scrollStart, autoScroll = true, resumeTimeout;
+
+    function step(){
+      if(autoScroll && !isDown){
+        track.scrollLeft += 0.6;
+        var half = track.scrollWidth / 2;
+        if(track.scrollLeft >= half){ track.scrollLeft -= half; }
+      }
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+
+    track.addEventListener('pointerdown', function(e){
+      isDown = true; autoScroll = false;
+      startX = e.pageX; scrollStart = track.scrollLeft;
+      track.setPointerCapture(e.pointerId);
+      clearTimeout(resumeTimeout);
+    });
+    track.addEventListener('pointermove', function(e){
+      if(!isDown) return;
+      var dx = e.pageX - startX;
+      track.scrollLeft = scrollStart - dx;
+    });
+    function release(){
+      isDown = false;
+      resumeTimeout = setTimeout(function(){ autoScroll = true; }, 1500);
+    }
+    track.addEventListener('pointerup', release);
+    track.addEventListener('pointerleave', release);
+  })();
 </script>
 
 </body>
