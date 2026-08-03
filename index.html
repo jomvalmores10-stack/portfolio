@@ -440,7 +440,7 @@
   }
 
   :focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
-  .pow-carousel-wrap{ position:relative; display:flex; align-items:center; gap:10px; }
+  .pow-carousel-wrap{ position:relative; }
   .pow-grid{
     display:flex; gap:18px; overflow-x:auto; scroll-behavior:smooth;
     scroll-snap-type:x mandatory; padding-bottom:6px;
@@ -449,15 +449,20 @@
   .pow-grid::-webkit-scrollbar{ display:none; }
   .pow-grid .pow-card{ flex:0 0 300px; scroll-snap-align:start; }
   .pow-arrow{
-    flex-shrink:0; width:38px; height:38px; border-radius:50%;
-    background:var(--panel); border:1px solid var(--line); color:var(--text);
+    position:absolute; top:90px; z-index:5;
+    width:36px; height:36px; border-radius:50%;
+    background:rgba(13,20,32,0.85); border:1px solid var(--line); color:var(--text);
     font-family:var(--mono); font-size:18px; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
     transition:border-color .15s ease, color .15s ease;
+    backdrop-filter:blur(2px);
   }
+  .pow-arrow-left{ left:6px; }
+  .pow-arrow-right{ right:6px; }
   .pow-arrow:hover{ border-color:var(--gold-dim); color:var(--gold); }
   @media (max-width:560px){
-    .pow-grid .pow-card{ flex:0 0 82vw; }
+    .pow-grid .pow-card{ flex:0 0 88vw; }
+    .pow-arrow{ top:70px; }
   }
 </style>
 </head>
