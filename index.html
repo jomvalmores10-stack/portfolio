@@ -950,11 +950,11 @@
   (function(){
     var track = document.querySelector('.stats');
     if(!track) return;
-    var isDown = false, startX, scrollStart, autoScroll = true, resumeTimeout;
+    var isDown = false, startX, scrollStart, resumeTimeout;
 
     function step(){
-      if(autoScroll && !isDown){
-        track.scrollLeft += 0.6;
+      if(!isDown){
+        track.scrollLeft += 1.2;
         var half = track.scrollWidth / 2;
         if(track.scrollLeft >= half){ track.scrollLeft -= half; }
       }
@@ -962,23 +962,31 @@
     }
     requestAnimationFrame(step);
 
-    track.addEventListener('pointerdown', function(e){
-      isDown = true; autoScroll = false;
-      startX = e.pageX; scrollStart = track.scrollLeft;
-      track.setPointerCapture(e.pointerId);
+    function start(pageX){
+      isDown = true;
+      startX = pageX; scrollStart = track.scrollLeft;
       clearTimeout(resumeTimeout);
-    });
-    track.addEventListener('pointermove', function(e){
-      if(!isDown) return;
-      var dx = e.pageX - startX;
-      track.scrollLeft = scrollStart - dx;
-    });
-    function release(){
-      isDown = false;
-      resumeTimeout = setTimeout(function(){ autoScroll = true; }, 1500);
     }
+    function move(pageX){
+      if(!isDown) return;
+      track.scrollLeft = scrollStart - (pageX - startX);
+    }
+    function release(){
+      if(!isDown) return;
+      isDown = false;
+      resumeTimeout = setTimeout(function(){}, 300);
+    }
+
+    track.addEventListener('pointerdown', function(e){ start(e.pageX); });
+    track.addEventListener('pointermove', function(e){ move(e.pageX); });
     track.addEventListener('pointerup', release);
+    track.addEventListener('pointercancel', release);
     track.addEventListener('pointerleave', release);
+
+    track.addEventListener('touchstart', function(e){ start(e.touches[0].pageX); }, {passive:true});
+    track.addEventListener('touchmove', function(e){ move(e.touches[0].pageX); }, {passive:true});
+    track.addEventListener('touchend', release);
+    track.addEventListener('touchcancel', release);
   })();
 </script>
 
