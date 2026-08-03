@@ -584,7 +584,7 @@
       <span class="runtime">Loom recording</span>
     </div>
     <div class="video-frame">
-      <iframe id="introFrame" data-src="https://www.loom.com/embed/09c8ac52425d45888a21e318b6ecf877?hide_owner=true&hide_share=true&hide_title=true" src="" allow="fullscreen" allowfullscreen title="Introduction video from Jomary Valmores"></iframe>
+      <div class="video-loader" id="introLoader"><div class="spinner"></div></div><iframe id="introFrame" data-src="https://www.loom.com/embed/09c8ac52425d45888a21e318b6ecf877?hide_owner=true&hide_share=true&hide_title=true" src="" allow="fullscreen" allowfullscreen title="Introduction video from Jomary Valmores" onload="document.getElementById('introLoader').style.display='none';"></iframe>
     </div>
     <div class="intro-caption">A short intro from me — who I am, how I work, and what I can build for you.</div>
   </div>
