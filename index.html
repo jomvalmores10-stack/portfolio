@@ -585,8 +585,11 @@
           <div class="d">Live multi-tenant SaaS product</div>
         </div>
       </a>
-      <div class="pow-card">
-        <div class="pow-thumb">GHL pipeline screenshot</div>
+      <div class="pow-card pow-card-link" onclick="openGhlModal()">
+        <div class="pow-thumb">
+          <img src="https://img.youtube.com/vi/eCsbDVuk6NE/hqdefault.jpg" alt="BrightSmile GoHighLevel demo video thumbnail" loading="lazy">
+          <div class="pow-visit">▶ Watch demo</div>
+        </div>
         <div class="pow-meta">
           <div class="t">BrightSmile — Lead Pipeline</div>
           <div class="d">2-branch CRM automation</div>
@@ -780,8 +783,25 @@
   document.getElementById('introModal').addEventListener('click', (e) => {
     if(e.target.id === 'introModal') closeIntroModal();
   });
+
+  function openGhlModal(){
+    var iframe = document.getElementById('ghlFrame');
+    if(iframe){ iframe.src = iframe.dataset.src; }
+    document.getElementById('ghlModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeGhlModal(){
+    document.getElementById('ghlModal').classList.remove('open');
+    document.body.style.overflow = '';
+    var iframe = document.getElementById('ghlFrame');
+    if(iframe){ iframe.src = ''; }
+  }
+  document.getElementById('ghlModal').addEventListener('click', (e) => {
+    if(e.target.id === 'ghlModal') closeGhlModal();
+  });
+
   document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape') closeIntroModal();
+    if(e.key === 'Escape'){ closeIntroModal(); closeGhlModal(); }
   });
 </script>
 
