@@ -932,9 +932,7 @@
     var iframe = document.getElementById('ghlFrame');
     if(iframe){ iframe.src = ''; }
   }
-  document.getElementById('ghlModal').addEventListener('click', (e) => {
-    if(e.target.id === 'ghlModal') closeGhlModal();
-  });
+  
 
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape'){ closeIntroModal(); closeGhlModal(); }
