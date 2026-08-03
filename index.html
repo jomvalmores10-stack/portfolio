@@ -576,7 +576,7 @@
     <div class="section-head">
       <div class="section-eyebrow">Proof of Work</div>
       <h2>See it in the browser, not just on paper</h2>
-      <p class="section-desc">Screenshots, walkthroughs, and client-approved builds. Click the empty tile to add your own — new uploads preview instantly for this browser session.</p>
+      <p class="section-desc">Screenshots, live sites, and client-approved builds from recent work.</p>
     </div>
     <div class="pow-grid" id="powGrid">
       <a class="pow-card pow-card-link" href="https://picklesys.com" target="_blank" rel="noopener">
@@ -669,12 +669,7 @@
         </div>
       </div>
     </div>
-    <label class="pow-upload" id="powUploadTile" for="powFileInput" style="margin-top:18px; max-width:340px; padding:26px;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M5 12h14"/></svg>
-      <span>Add proof of work</span>
-    </label>
-    <input type="file" id="powFileInput" accept="image/*" multiple style="display:none">
-    <div class="pow-note">Uploads preview here for this session only. To make them permanent on your published site, save the images alongside this file and swap in their file paths, or host it with Claude Code / Vercel and connect real storage.</div>
+
   </div>
 </section>
 
@@ -813,27 +808,7 @@
 </footer>
 
 <script>
-  const powGrid = document.getElementById('powGrid');
-  const powFileInput = document.getElementById('powFileInput');
 
-  powFileInput.addEventListener('change', (e) => {
-    const files = Array.from(e.target.files || []);
-    files.forEach((file) => {
-      if (!file.type.startsWith('image/')) return;
-      const url = URL.createObjectURL(file);
-      const card = document.createElement('div');
-      card.className = 'pow-card';
-      card.innerHTML = `
-        <div class="pow-thumb"><img src="${url}" alt="${file.name}"></div>
-        <div class="pow-meta">
-          <div class="t">${file.name.replace(/\.[^/.]+$/, '')}</div>
-          <div class="d">Added this session</div>
-        </div>
-      `;
-      powGrid.appendChild(card);
-    });
-    powFileInput.value = '';
-  });
   function openIntroModal(){
     var iframe = document.getElementById('introFrame');
     if(iframe){ iframe.src = iframe.dataset.src; }
