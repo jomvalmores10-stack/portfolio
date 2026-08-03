@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -330,7 +330,16 @@
     background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
     overflow:hidden;
   }
-  .pow-thumb{
+  .pow-card-link{text-decoration:none; color:inherit; display:block; cursor:pointer; transition:transform .15s ease, border-color .15s ease;}
+  .pow-card-link:hover{border-color:var(--gold-dim); transform:translateY(-2px);}
+  .pow-thumb{position:relative;}
+  .pow-visit{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(13,20,32,0.82); opacity:0; transition:opacity .15s ease;
+    font-family:var(--mono); font-size:12.5px; color:var(--gold);
+  }
+  .pow-card-link:hover .pow-visit{opacity:1;}
+    .pow-thumb{
     aspect-ratio:16/10; background:var(--panel-alt);
     display:flex; align-items:center; justify-content:center;
     color:var(--muted-dim); font-family:var(--mono); font-size:12px;
@@ -481,13 +490,13 @@
   <div class="intro-modal">
     <button class="intro-modal-close" onclick="closeIntroModal()" aria-label="Close video">&times;</button>
     <div class="intro-head">
-      <span class="label"><span class="rec"></span>intro.mp4 � a quick hello before the resume</span>
+      <span class="label"><span class="rec"></span>intro.mp4 � a quick hello before the resume</span>
       <span class="runtime">Loom recording</span>
     </div>
     <div class="video-frame">
       <iframe id="introFrame" data-src="https://www.loom.com/embed/09c8ac52425d45888a21e318b6ecf877?hide_owner=true&hide_share=true&hide_title=true" src="" allow="fullscreen" allowfullscreen title="Introduction video from Jomary Valmores"></iframe>
     </div>
-    <div class="intro-caption">A short intro from me � who I am, how I work, and what I can build for you.</div>
+    <div class="intro-caption">A short intro from me � who I am, how I work, and what I can build for you.</div>
   </div>
 </div>
 
@@ -566,13 +575,15 @@
       <p class="section-desc">Screenshots, walkthroughs, and client-approved builds. Click the empty tile to add your own — new uploads preview instantly for this browser session.</p>
     </div>
     <div class="pow-grid" id="powGrid">
-      <div class="pow-card">
-        <div class="pow-thumb">picklesys.com screenshot</div>
+      <a class="pow-card pow-card-link" href="https://picklesys.com" target="_blank" rel="noopener">
+        <div class="pow-thumb">picklesys.com screenshot
+          <div class="pow-visit">Visit live site ↗</div>
+        </div>
         <div class="pow-meta">
           <div class="t">PickleSys — Booking Dashboard</div>
           <div class="d">Live multi-tenant SaaS product</div>
         </div>
-      </div>
+      </a>
       <div class="pow-card">
         <div class="pow-thumb">GHL pipeline screenshot</div>
         <div class="pow-meta">
